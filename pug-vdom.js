@@ -175,6 +175,9 @@ Compiler.prototype.visitExtends = function (node, parent) {
 }
 
 Compiler.prototype.visitMixin = function (node, parent) {
+  // FIXME: better mxin name sanitize
+  node.name = node.name.replaceAll("-", "_PUGDASH_")
+
   var s = this.parentTagId
   if (node.call) {
     if(node.block) { // the call mixin define a block
