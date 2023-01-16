@@ -187,18 +187,18 @@ Compiler.prototype.visitMixin = function (node, parent) {
       this.addI(`var n${id}Child = []\r\n`)
       this.visitBlock(node.block, node)
       var args = node.args ? `${node.args}, n${id}Child` : `n${id}Child`
-      this.addI(`n${s}Child.push(${node.name}(${args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}(${args}));\r\n`)
       this.indent--
       this.parentTagId = s
     } else {
-      this.addI(`n${s}Child.push(${node.name}(${node.args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}(pugVDOMRuntime.compileAttrs(${JSON.stringify(node.attrs)},${JSON.stringify(node.attributeBlocks)}), ${node.args}));\r\n`)
     }
     return
   }
   var id = uid()
   this.parentTagId = id
   var args = node.args ? `${node.args}, __block` : `__block`
-  this.addI(`function ${node.name}(${args}) {\r\n`)
+  this.addI(`function _MIXIN_${node.name}(attributes, ${args}) {\r\n`)
   this.indent++
   this.addI(`var n${id}Child = []\r\n`)
   if (node.block) {
