@@ -180,6 +180,8 @@ Compiler.prototype.visitMixin = function (node, parent) {
 
   var s = this.parentTagId
   if (node.call) {
+    var attrsArgs = `pugVDOMRuntime.compileAttrs(${JSON.stringify(node.attrs)},${JSON.stringify(node.attributeBlocks)})`
+
     if(node.block) { // the call mixin define a block
       var id = uid()
       this.parentTagId = id
@@ -187,11 +189,11 @@ Compiler.prototype.visitMixin = function (node, parent) {
       this.addI(`var n${id}Child = []\r\n`)
       this.visitBlock(node.block, node)
       var args = node.args ? `${node.args}, n${id}Child` : `n${id}Child`
-      this.addI(`n${s}Child.push(_MIXIN_${node.name}(${args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}(${attrsArgs}, ${args}));\r\n`)
       this.indent--
       this.parentTagId = s
     } else {
-      this.addI(`n${s}Child.push(_MIXIN_${node.name}(pugVDOMRuntime.compileAttrs(${JSON.stringify(node.attrs)},${JSON.stringify(node.attributeBlocks)}), ${node.args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}(${attrsArgs}, ${node.args}));\r\n`)
     }
     return
   }
