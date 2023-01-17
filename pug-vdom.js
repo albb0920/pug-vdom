@@ -189,11 +189,11 @@ Compiler.prototype.visitMixin = function (node, parent) {
       this.addI(`var n${id}Child = []\r\n`)
       this.visitBlock(node.block, node)
       var args = node.args ? `${node.args}, n${id}Child` : `n${id}Child`
-      this.addI(`n${s}Child.push(_MIXIN_${node.name}(${attrsArgs}, ${args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}.call(this, ${attrsArgs}, ${args}));\r\n`)
       this.indent--
       this.parentTagId = s
     } else {
-      this.addI(`n${s}Child.push(_MIXIN_${node.name}(${attrsArgs}, ${node.args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}.call(this, ${attrsArgs}, ${node.args}));\r\n`)
     }
     return
   }
