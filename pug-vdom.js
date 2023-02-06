@@ -188,18 +188,18 @@ Compiler.prototype.visitMixin = function (node, parent) {
       this.indent++
       this.addI(`var n${id}Child = []\r\n`)
       this.visitBlock(node.block, node)
-      var args = node.args ? `${node.args}, n${id}Child` : `n${id}Child`
+      var args = node.args ? `n${id}Child, ${node.args}` : `n${id}Child`
       this.addI(`n${s}Child.push(_MIXIN_${node.name}.call(this, ${attrsArgs}, ${args}));\r\n`)
       this.indent--
       this.parentTagId = s
     } else {
-      this.addI(`n${s}Child.push(_MIXIN_${node.name}.call(this, ${attrsArgs}, ${node.args}));\r\n`)
+      this.addI(`n${s}Child.push(_MIXIN_${node.name}.call(this, ${attrsArgs}, [], ${node.args}));\r\n`)
     }
     return
   }
   var id = uid()
   this.parentTagId = id
-  var args = node.args ? `${node.args}, __block` : `__block`
+  var args = node.args ? `__block, ${node.args}` : `__block`
   this.addI(`function _MIXIN_${node.name}(attributes, ${args}) {\r\n`)
   this.indent++
   this.addI(`var n${id}Child = []\r\n`)
