@@ -201,7 +201,7 @@ Compiler.prototype.visitMixin = function (node, parent) {
   }
   var id = uid()
   this.parentTagId = id
-  var args = node.args ? `__block, ${node.args}` : `__block`
+  var args = node.args ? `block, ${node.args}` : `block`
   this.addI(`function _MIXIN_${node.name}(attributes, ${args}) {\r\n`)
   this.indent++
   this.addI(`var n${id}Child = []\r\n`)
@@ -215,7 +215,7 @@ Compiler.prototype.visitMixin = function (node, parent) {
 }
 
 Compiler.prototype.visitMixinBlock = function (node, parent) {
-  this.addI(`n${this.parentTagId}Child.push(__block);\r\n`)
+  this.addI(`n${this.parentTagId}Child.push(block);\r\n`)
 }
 
 Compiler.prototype.visitCase = function (node, parent) {
