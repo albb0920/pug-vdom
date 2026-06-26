@@ -94,7 +94,7 @@ Compiler.prototype.visitTag = function (node, parent) {
   this.parentTagId = id
   this.visitBlock(node.block, node)
   this.addI(`var props = {attributes: runtime.compileAttrs([${node.attrs.map(attr => '{name:\'' + attr.name + '\', val: ' + attr.val + '}').join(',')}], [${node.attributeBlocks.join(',')}])};\r\n`);
-  this.addI(`if (props.attributes.id) props.key = props.attributes.id;\r\n`);
+  this.addI(`if (props.attributes.key) { props.key = props.attributes.key; delete props.attributes.key; } else if (props.attributes.id) props.key = props.attributes.id;\r\n`);
   this.addI(`var n${id} = h(${node.name ? `'${node.name}'` : `${node.expr}`}, props, n${id}Child)\r\n`)
   this.parentTagId = s
   this.addI(`n${s}Child.push(n${id})\r\n`)

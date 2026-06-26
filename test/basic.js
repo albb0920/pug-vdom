@@ -139,6 +139,31 @@ describe('Compiler', function () {
     done()
   })
 
+  it('Promotes key attribute to vnode.key and removes it from attributes', function (done) {
+    const pugTextKey = `
+.my-element(key='my-key', id='my-id')`;
+    var vnodes = vDom.generateTemplateFunction(pugTextKey)({}, h);
+    var vnode = vnodes[0];
+
+    assert.equal(vnode.key, 'my-key')
+    assert.equal(vnode.properties.attributes.key, undefined)
+    assert.equal(vnode.properties.attributes.id, 'my-id')
+
+    done()
+  })
+
+  it('Falls back to id for vnode.key when no key attribute', function (done) {
+    const pugTextKeyId = `
+.my-element#my-id`;
+    var vnodes = vDom.generateTemplateFunction(pugTextKeyId)({}, h);
+    var vnode = vnodes[0];
+
+    assert.equal(vnode.key, 'my-id')
+    assert.equal(vnode.properties.attributes.id, 'my-id')
+
+    done()
+  })
+
   it('Compiles pug code using while loop', function (done) {
     const pugText8 = `
 - var n = 0;
