@@ -33,7 +33,7 @@ block append content
   p.class-3(class="class-1", toto=1)&attributes({class: 'class-2', toto:"3"}, {class: 'class-4', toto: '4'}) Hello world! This element should have 4 "class-*" classes and a toto attribute of 4
     a Top
       |
-    a.somthing.toto= pet('blas')
+    a.somthing.toto= echo('blas')
     +pet('blas', 1, 2)
     if 1
       Blop
